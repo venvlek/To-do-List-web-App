@@ -1,0 +1,668 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    
+}
+:root {
+  --z-base: 1;        /* normal content */
+  --z-footer: 10;     /* bottom nav */
+  --z-fab: 20;        /* floating add button */
+  --z-modal: 100;     /* AddTask screen */
+  --z-splash: 1000;   /* splash screen */
+}
+
+html, body{
+    background-color: aliceblue;
+    font-family: 'poppins',  sans-serif;
+    height: 100%;
+    overflow: auto;
+
+}
+#splash {
+  position: fixed;
+  inset: 0;
+  background-color: blue;
+  z-index: var(--z-splash);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 🔥 centers vertically */
+  align-items: center;
+  gap: 30px; /* spacing without overflow */
+  transition: opacity 1s ease;
+}
+
+
+#logo{
+    background-color: whitesmoke;
+    height: 10em;
+    width: 10em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login h1 {
+  margin-bottom: 10px;
+  color:whitesmoke;
+}
+
+#text{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: whitesmoke;
+}
+@keyframes fadeInOut {
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+#blue-tick{
+    color:blue;
+    font-size: 7em;
+    animation: fadeInOut 2s ease-in-out infinite;
+}
+#splash.fade{opacity:0;}
+
+.login {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  background-color: rgb(2, 2, 43);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto; /* allow internal scroll if needed */
+  padding: 20px;
+  color: whitesmoke;
+  z-index: 100;
+}
+
+.login form{
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+}
+
+.login form input{
+    background-color: transparent;
+    color:whitesmoke;
+    width: 100%;
+    max-width: 520px;
+    padding: 0.6rem 0.8rem;
+    border: 2px solid whitesmoke;
+    border-radius: 10px;
+}
+
+.login-btn{
+    padding:3%;
+    background-color: blue;
+    color:whitesmoke;
+    font-size: 1em;
+    font-weight: bold;
+    border:0;
+    border-radius: 8px;
+}
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: whitesmoke;
+  flex:1;
+}
+
+.social {
+  width: 100%;
+  padding:3%;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.social img {
+  width: 18px;
+}
+
+.login form button.social.google {
+  background: white;
+  color: #333;
+}
+
+.login form button.social.apple {
+  background: #111;
+  color: white;
+}
+
+.login form button.guest {
+  width: 100%;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: white;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.login, .dashboard, .AddTask-screen {
+transition: opacity 0.5s ease, visibility 0.5s ease;
+ position: absolute;
+ inset: 0;
+}
+
+.login {
+  opacity: 1;
+  visibility: visible;
+}
+/* Targets the login screen only when it does NOT have the .active class. */
+.login:not(.active) { 
+  opacity: 0;
+  visibility: hidden;
+}
+/* dashboard styles */
+.dashboard {
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  overflow-y: auto;
+  z-index: var(--z-base);
+}
+
+.dashboard.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dashboard .task-list .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 520px;
+    margin-top: 10px;
+}
+.dashboard .task-list .header .heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.dashboard .task-list .header .heading i{
+    font-size: 1.5em;
+    cursor: pointer;
+    color: gray;
+}
+.dashboard .task-list .header .heading i:hover{
+    color: black;
+}
+.dashboard .task-list .header .heading .profile-pic{
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.dashboard .task-list .header .heading .profile-pic img{
+    border-radius: 50%;
+    object-fit: cover;
+}
+.dashboard .task-list .heading h1{
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+    color: rgb(33, 33, 33);
+}
+.dashboard .task-list .header .navigation{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.dashboard .task-list .header .navigation button{
+    padding: 10px 20px;
+    background-color: whitesmoke;
+    color: black;
+    font-weight: bold;
+    border: 1px solid gray;
+    font-size: 1em; 
+    cursor: pointer;
+    /* Minimum width: 120px;
+Preferred scaling: 20% of viewport width Maximum width: 180px */
+    width: clamp(120px, 20vw, 180px);
+}
+.dashboard .task-list .header button.selected {
+  background-color: blue;
+  color: whitesmoke;
+}
+
+.dashboard .task-list .task-status{
+    font-size: 1em;
+    color: gray;
+    background-color: whitesmoke;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: none;
+    padding: 20px 20px;
+    gap: 8px;
+    width:100%;
+    max-width: 520px;
+}
+
+.dashboard .task-list .task-status div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: none;
+    gap:5px;
+    border-radius: 6px;
+    padding: 5px 15px;
+    min-height: 80px;
+    min-width: 50px;
+    width: 100%;
+}
+.dashboard .task-list .task-status .task-today{
+    background-color: green;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.dashboard .task-list .task-status .task-pending{
+    background-color: blue;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.dashboard .task-list .task-status .high-risk{
+  background-color: orange;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.dashboard .task-list .task-status .task-completed{
+    background-color: gray;
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+.dashboard .task-list .dateTimeFilter-container{
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 10px;
+    width: 100%;
+    max-width: 520px;
+}
+.dashboard .task-list .dateTimeFilter-container .dateTime{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.dashboard .task-list .dateTimeFilter-container .dateTime .status-text{
+    font-size: 1.2rem;
+    color: black;
+    margin-bottom: 5px;
+}
+.dashboard .task-list .dateTimeFilter-container .dateTime #date,#time{
+    font-size: 1em;
+    color: gray;
+}
+.dashboard .task-list .dateTimeFilter-container .filter i{ 
+    font-size: 1.5em;
+    cursor: pointer;
+    color: gray;
+}
+.dashboard .task-list ul{
+    margin-top: 20px;
+    list-style: none;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 10px;
+
+}
+.dashboard .task-list ul li{
+    background-color: whitesmoke;
+    color: black;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    cursor: pointer;
+    flex: 1;
+}
+.dashboard .task-list ul li .secOne{
+    flex: 1;
+}
+.dashboard .task-list{
+    overflow-y: auto;
+    padding-bottom: 5em;
+}
+.dashboard .addTask{
+    position: fixed;
+    bottom: 2.5em;
+    right: 30px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-fab);
+}
+.dashboard .addTask:hover{
+    background-color: darkblue;
+    box-shadow: 0 -2px 5px rgba(255, 2, 2, 0.1);
+}
+.dashboard .addTask .add-task-button {
+    font-size: 1em;
+    border: none;
+    background: transparent;
+    color: white;
+}
+.dashboard .task-list ul li .secOne .task {
+  display: flex;
+  gap: 8px;
+}
+
+.dashboard .task-list ul li .secOne .task .task-text {
+  display: block;
+  min-width: 50%;
+}
+.dashboard .task-list ul li .secOne .task .task-text.done{
+  text-decoration: line-through;
+  color: gray;
+  background-color: red;
+}
+.dashboard .task-list ul li .secOne .categories {
+    font-size: 0.9em;
+    color: whitesmoke;
+    background-color: rgb(92, 235, 92);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.dashboard .task-list ul li .secOne .categories .risk-level{
+    background-color: orange;
+    color: whitesmoke;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 5px;
+    position:relative;
+    left: 1em;
+}
+
+.dashboard .task-list ul li .secTwo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.dashboard .task-list ul li .delete-btn {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background-color 0.2s;
+}
+
+.dashboard .task-list ul li .delete-btn:hover {
+    background-color: #0000ff;
+}
+.dashboard .footer-nav{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    z-index: var(--z-footer);
+}
+.dashboard .footer-nav .nav-btn{
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: gray;
+    font-size: 1em;
+    gap: 0.3em;
+    cursor: pointer;
+}
+.dashboard .footer-nav .nav-btn.selected{
+    color: blue;
+    font-weight: bold;
+}
+.login:not(.active),
+.dashboard:not(.active) {
+  pointer-events: none;
+}
+
+.login,
+.dashboard,
+.AddTask-screen {
+  isolation: isolate;
+}
+
+/* Add new task form styles */
+.AddTask-screen {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  background-color: rgba(0,0,0,0.5);
+  z-index: var(--z-modal);
+  pointer-events: all; /* allow clicks on children */
+}
+.AddTask-screen .header {
+    background-color: rgb(202, 200, 200);
+    width: 100%;
+    max-width: 520px;
+    padding: 15px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: poppins, sans-serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.AddTask-screen .header button {
+    font-size: 1.5em;
+    cursor: pointer;
+    color: blue;
+    background-color: transparent;
+    border: none;
+}
+.AddTask-screen .header button:hover {
+    color: darkblue;
+}
+.AddTask-screen .header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.AddTask-screen form {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+}
+.AddTask-screen form .taskInput {
+    width: 100%;
+    max-width: 520px;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+}
+.AddTask-screen form .taskInput input{
+    padding: 10px;
+    font-size: 1em;
+    border: 0;
+    border-bottom: 2px solid gray;
+}
+.AddTask-screen form .task-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px 20px 20px;
+}
+/* Due date row container */
+.AddTask-screen form .task-details .option-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #eaeaea;
+  position: relative;
+}
+
+/* Label */
+.AddTask-screen form .task-details .option-row .label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #2b2b2b;
+}
+
+/* Clickable date button */
+.AddTask-screen form .task-details .option-row .value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Date text */
+.AddTask-screen form .task-details .option-row .blue-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2f6fed;
+}
+
+/* Calendar icon */
+.AddTask-screen form .task-details .option-row .icon {
+  font-size: 18px;
+  color: #6b7280;
+}
+
+/* Remove default focus styles */
+.AddTask-screen form .task-details .option-row .value:focus {
+  outline: none;
+}
+
+.AddTask-screen form .task-details .option-row .select {
+  padding: 6px 30px 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.AddTask-screen form .task-details .option-row .select.priority {
+  color: #b00020;
+  font-weight: 500;
+}
+
+.AddTask-screen form .task-details .option-row .select.category {
+  color: #333;
+}
+.AddTask-screen form .add-task-btn {
+    margin: 20px;
+    padding: 12px;
+    background-color: blue;
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.AddTask-screen.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+#dueDate {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  width: 180px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.option-row .value {
+  pointer-events: none;
+  position: relative;
+  z-index: 5;
+}
+
+@media (max-width: 480px) {
+  .dashboard .task-list .header,
+  .dashboard .task-list .task-status,
+  .dashboard .task-list ul li {
+    padding: 8px 5%;
+    font-size: 0.9em;
+  }
+
+  .dashboard .task-list .header .navigation button {
+    width: clamp(100px, 30vw, 150px);
+    padding: 8px 12px;
+  }
+
+}

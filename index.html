@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do list App</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- splash screen -->
+    <div id="splash">
+        <!-- style="display:none; visibility: hidden; opacity: 0;"> -->
+        <div id="logo">
+            <i class="fa-solid fa-check" style="color:red; position: absolute; font-size: 7em;"></i>
+            <i class="fa-solid fa-check" id="blue-tick"></i>
+        </div>
+        <div id="text">
+        <h2>Organize your day.</h2>
+        <h3>Get more done.</h3>
+        </div>
+    </div>
+     
+    <!-- Login interface -->
+    <div class="login active"> 
+        <!-- style="display:none; visibility: hidden; overflow: hidden; opacity: 0;"> -->
+        <h1>Sign In</h1>
+
+        <form action="">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+            <button type="submit" class="login-btn">Login</button>
+
+            <div style="display:flex; column-gap: 5px; justify-content: center; align-items: center;">
+                <span class="line"></span><span style="white-space: nowrap; flex-shrink:0;">Or continue with</span> <span class="line"></span>
+            </div>
+                <button class="social google">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" />
+                Continue with Google
+                </button>
+
+                <button class="social apple">
+                <i class="fa-brands fa-apple"></i>
+                Continue with Apple
+                </button>
+
+                <button class="guest">
+                Continue as Guest
+                </button>
+        </form>
+    </div>
+     <div class="dashboard">
+
+     <!-- style="display: none; visibility: hidden; opacity: 0;"> -->
+        <div class="task-list">
+           
+            <div class="header">
+                <div class="heading"> <i class="fas fa-search"></i><h1 >Today</h1>  <div class="profile-pic"><img src="https://thispersondoesnotexist.com" alt="" height="50rem" width="50rem"></div></div>
+                <div class="navigation"><button id="today" class="today selected">Today</button> <button id="upcoming" class="upcoming">Upcoming</button> <button id="All" class="all">All</button></div>
+            </div>
+
+            <div class="task-status">
+                <div class="task-today"><span class="taskToday numbers">7</span> <span class="taskToday text">Task Today</span></div>
+                <div class="task-pending"><span class="taskPending numbers">4</span> <span class="taskPending text">Pending</span></div>
+                <div class="high-risk"><span class="taskHighRisk numbers">2</span> <span class="taskHighRisk text">High Risk</span></div>
+                <div class="task-completed"><span class="taskCompleted numbers">3</span> <span class="taskCompleted text">Completed</span></div>
+            </div>
+
+            <div class="dateTimeFilter-container">
+                <div class="dateTime">
+                    <span class="status-text">Today</span>
+                    <span id="date"></span>
+                    <span id="time"></span>
+                </div>
+                <div class="filter">
+                    <i class="fa-solid fa-filter"></i>
+                    <i class="fa-solid fa-list"></i>
+                </div>
+            </div>
+
+            <ul id="tasks">
+                <!-- Tasks will be dynamically added here -->
+                 <li>
+                    <div class="secOne">
+                    <label class="task">
+                    <input type="checkbox" name="first" id="first"> 
+                    <span class="task-text">Buy groceries </span>
+                    </label>
+                    <br>
+                    <span class="categories">School<span class="risk-level">high</span></span>
+                    </div>
+                    <div class="secTwo">
+                    <span class="due-date confirmed">Due: 2024-06-15</span>
+                    </div>
+                </li>
+                
+            </ul>
+            
+        </div>
+
+        <div class="addTask">
+            <button class="add-task-button"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div class="footer-nav">
+            <button class="nav-btn selected"><i class="fa-solid fa-home"></i><span>Home</span></button>
+            <button class="nav-btn"><i class="fa-solid fa-calendar-days"></i><span>Calendar</span></button>
+            <button class="nav-btn"><i class="fa-solid fa-chart-line"></i><span>Stats</span></button>
+            <button class="nav-btn"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
+        </div>
+     </div>
+
+     <div class="AddTask-screen">
+            <div class="header">
+                <button class="back"> <i class="fas fa-arrow-left"></i></button> <h2>Add New Task</h2>  <div class="profile-pic"><img src="https://thispersondoesnotexist.com" alt="" height="50rem" width="50rem"></div>
+            </div>
+            <form action="">
+                <div class="taskInput">
+                <label for="task-name"></label>
+                <input type="text" id="task-name" name="task-name" placeholder="Task Title" required>
+
+                <label for="Discription"></label>
+                <input type="text" id="Discription" name="Discription" placeholder="Discription">
+                </div>
+
+                <div class="task-details">
+                    <div class="option-row">
+                        <span class="label">Due Date:</span>
+
+                        <!-- Button to trigger picker -->
+                        <button type="button" class="value clickable" id="openPicker">
+                        <span class="blue-text" id="dateText">Today, 6:00 PM</span>
+                        <span class="icon">📅</span>
+                        </button>
+
+                        <!-- Input moved outside the button -->
+                        <input type="datetime-local" id="dueDate">
+                    </div>
+
+
+                    <div class="option-row">
+                        <span class="label">Priority:</span>
+                        <select class="select priority">
+                        <option selected>High</option>
+                        <option>Medium</option>
+                        <option>Low</option>
+                        </select>
+                    </div>
+
+                <!-- Category -->
+                    <div class="option-row">
+                        <span class="label">Category:</span>
+                        <select class="select category">
+                        <option selected>Personal</option>
+                        <option>Work</option>
+                        <option>School</option>
+                        </select>
+                    </div>
+
+                <button type="submit" class="add-task-btn">Add Task</button>
+            </form>
+        </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
