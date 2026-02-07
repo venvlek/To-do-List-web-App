@@ -145,6 +145,9 @@ function loadTasks() {
     tasks = JSON.parse(savedTasks);
   } else {
     // Default task if none exist
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    
     tasks = [
       {
         id: Date.now() + 1,
@@ -152,7 +155,7 @@ function loadTasks() {
         description: "Click the + button to add your first task",
         category: "Personal",
         priority: "low",
-        dueDate: new Date().toISOString().split('T')[0], // Today's date
+        dueDate: todayStr,
         completed: false
       }
     ];
@@ -221,46 +224,61 @@ function renderTasks() {
 // Get filtered tasks based on current filter
 function getFilteredTasks() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayStr = today.toISOString().split('T')[0];
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  
+  console.log('Current filter:', currentFilter);
+  console.log('Today date string:', todayStr);
+  console.log('All tasks:', tasks.map(t => ({ title: t.title, dueDate: t.dueDate })));
   
   if (currentFilter === 'today') {
-    return tasks.filter(task => task.dueDate === todayStr);
+    const todayTasks = tasks.filter(task => task.dueDate === todayStr);
+    console.log('Today tasks:', todayTasks.length);
+    return todayTasks;
   } else if (currentFilter === 'upcoming') {
-    return tasks.filter(task => {
-      const taskDate = new Date(task.dueDate);
-      taskDate.setHours(0, 0, 0, 0);
-      return taskDate > today;
-    });
+    const upcomingTasks = tasks.filter(task => task.dueDate > todayStr);
+    console.log('Upcoming tasks:', upcomingTasks.length);
+    return upcomingTasks;
   } else {
     // 'all'
+    console.log('All tasks:', tasks.length);
     return tasks;
   }
 }
 
 // Format date for display
 function formatDate(dateStr) {
-  const date = new Date(dateStr);
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const taskDate = new Date(dateStr);
-  taskDate.setHours(0, 0, 0, 0);
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   
-  const diffTime = taskDate - today;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
   
-  if (diffDays === 0) {
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+  
+  if (dateStr === todayStr) {
     return 'Today';
-  } else if (diffDays === 1) {
+  } else if (dateStr === tomorrowStr) {
     return 'Tomorrow';
-  } else if (diffDays === -1) {
+  } else if (dateStr === yesterdayStr) {
     return 'Yesterday';
-  } else if (diffDays > 1 && diffDays <= 7) {
-    return `In ${diffDays} days`;
-  } else if (diffDays < -1) {
-    return `${Math.abs(diffDays)} days ago`;
   } else {
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    // Calculate days difference
+    const taskDate = new Date(dateStr + 'T00:00:00');
+    const todayDate = new Date(todayStr + 'T00:00:00');
+    const diffTime = taskDate - todayDate;
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays > 1 && diffDays <= 7) {
+      return `In ${diffDays} days`;
+    } else if (diffDays < -1 && diffDays >= -7) {
+      return `${Math.abs(diffDays)} days ago`;
+    } else {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
   }
 }
 
@@ -344,10 +362,15 @@ if (addTaskForm) {
     // Format the due date
     let formattedDate;
     if (taskDueDate) {
+      // Extract just the date part from datetime-local
       formattedDate = taskDueDate.split('T')[0];
     } else {
-      formattedDate = new Date().toISOString().split('T')[0];
+      // Use today's date if no date selected
+      const now = new Date();
+      formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     }
+    
+    console.log('Adding task with date:', formattedDate);
     
     const taskData = {
       title: taskTitle,
