@@ -98,7 +98,61 @@
                     <span class="due-date confirmed">Due: 2024-06-15</span>
                     </div>
                 </li>
-                
+                <li>
+                    <div class="secOne">
+                    <label class="task">
+                        <input type="checkbox" name="second" id="second"> 
+                        <span class="task-text">Finish project report </span>
+                    </label>
+                    <br>
+                    <span class="categories">Work<span class="risk-level">medium</span></span>
+                    </div>
+                    <div class="secTwo">
+                    <span class="due-date confirmed">Due: 2024-06-15</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="secOne">
+                        <label class="task">
+                            <input type="checkbox" name="third" id="third"> 
+                            <span class="task-text">Call mom </span>
+                        </label>
+                        <br>
+                        <span class="categories">Personal<span class="risk-level">low</span></span>
+                    </div>
+                    <div class="secTwo">
+                    <span class="due-date confirmed">Due: 2024-06-15</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="secOne">
+
+                        <label class="task">
+                        <input type="checkbox" name="fourth" id="fourth">
+                        <span class="task-text">Schedule dentist appointment</span>
+                        </label>
+                        <br>
+                        <span class="categories">Health <span class="risk-level">high</span></span>
+                    </div>
+
+                    <div class="secTwo">
+                        <span class="due-date confirmed">Due: 2024-06-15</span>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="secOne">
+                    <label class="task">
+                        <input type="checkbox" name="fifth" id="fifth"> 
+                        <span class="task-text">Plan weekend trip</span>
+                    </label>
+                    <br>
+                    <span class="categories">Personal<span class="risk-level">low</span></span>
+                    </div>
+                    <div class="secTwo">
+                    <span class="due-date confirmed">Due: 2024-06-15</span>
+                    </div>
+                </li>
             </ul>
             
         </div>
@@ -164,6 +218,140 @@
                 <button type="submit" class="add-task-btn">Add Task</button>
             </form>
         </div>
+
+     <!-- Calendar Screen -->
+     <div class="Calendar-screen">
+        <div class="header">
+            <h2>Calendar</h2>
+            <div class="profile-pic"><img src="https://thispersondoesnotexist.com" alt="" height="50rem" width="50rem"></div>
+        </div>
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+                <h3 id="current-month-year"></h3>
+                <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-days-header">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+            <div id="calendar-grid" class="calendar-grid">
+                <!-- Calendar days will be generated here -->
+            </div>
+        </div>
+        <div class="selected-date-tasks">
+            <h3 id="selected-date-title">Tasks for Selected Date</h3>
+            <ul id="calendar-tasks-list">
+                <!-- Tasks for selected date will appear here -->
+            </ul>
+        </div>
+     </div>
+
+     <!-- Stats Screen -->
+     <div class="Stats-screen">
+        <div class="header">
+            <h2>Statistics</h2>
+            <div class="profile-pic"><img src="https://thispersondoesnotexist.com" alt="" height="50rem" width="50rem"></div>
+        </div>
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>Total Tasks</h3>
+                <p class="stat-number" id="total-tasks">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Completed</h3>
+                <p class="stat-number" id="completed-tasks">0</p>
+                <p class="stat-percentage" id="completion-rate">0%</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <p class="stat-number" id="pending-tasks">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Overdue</h3>
+                <p class="stat-number" id="overdue-tasks">0</p>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>Tasks by Category</h3>
+            <div id="category-breakdown" class="breakdown-list">
+                <!-- Category breakdown will be generated here -->
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>Tasks by Priority</h3>
+            <div id="priority-breakdown" class="breakdown-list">
+                <!-- Priority breakdown will be generated here -->
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h3>Productivity Trend (Last 7 Days)</h3>
+            <div id="productivity-chart" class="chart-container">
+                <!-- Simple bar chart will be generated here -->
+            </div>
+        </div>
+     </div>
+
+     <!-- Settings Screen -->
+     <div class="Settings-screen">
+        <div class="header">
+            <h2>Settings</h2>
+            <div class="profile-pic"><img src="https://thispersondoesnotexist.com" alt="" height="50rem" width="50rem"></div>
+        </div>
+        <div class="settings-container">
+            <div class="settings-section">
+                <h3>Data Management</h3>
+                <button class="settings-btn" id="export-data">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <button class="settings-btn" id="import-data">
+                    <i class="fas fa-upload"></i> Import Data
+                </button>
+                <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                <button class="settings-btn danger" id="clear-all-data">
+                    <i class="fas fa-trash"></i> Clear All Data
+                </button>
+            </div>
+
+            <div class="settings-section">
+                <h3>Task Display</h3>
+                <label class="settings-toggle">
+                    <span>Show Completed Tasks</span>
+                    <input type="checkbox" id="show-completed" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+                <label class="settings-toggle">
+                    <span>Auto-Delete Completed Tasks (7 days)</span>
+                    <input type="checkbox" id="auto-delete-completed">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="settings-section">
+                <h3>Notifications</h3>
+                <label class="settings-toggle">
+                    <span>Enable Notifications</span>
+                    <input type="checkbox" id="enable-notifications">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="settings-section">
+                <h3>About</h3>
+                <p>To-Do List App v1.0</p>
+                <p>Total Tasks Created: <span id="total-tasks-created">0</span></p>
+                <p>Member Since: <span id="member-since">Today</span></p>
+            </div>
+        </div>
+     </div>
 
 
 
